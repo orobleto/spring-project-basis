@@ -20,6 +20,10 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 
+	<modules>
+		<module>../commons-utilities</module>
+	</modules>
+
 	<developers>
 		<developer>
 			<name>Octavio Robleto</name>
