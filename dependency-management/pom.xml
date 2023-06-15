@@ -22,6 +22,9 @@
 
 	<modules>
 		<module>../commons-utilities</module>
+		<module>../utilities-core</module>
+		<module>../auth-core</module>
+		<module>../api</module>
 	</modules>
 
 	<developers>
@@ -32,6 +35,4 @@
 			<organizationUrl>https://octaviorobleto.com</organizationUrl>
 		</developer>
 	</developers>
-
-
 </project>
