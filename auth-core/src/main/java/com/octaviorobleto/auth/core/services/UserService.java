@@ -1,36 +1,51 @@
 package com.octaviorobleto.auth.core.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.octaviorobleto.auth.core.entities.User;
 import com.octaviorobleto.auth.core.repositories.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService {
-	private static Logger logger = LogManager.getLogger();
+public class UserService {
+
 	@Autowired
 	private UserRepository userRepository;
 
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		logger.info(username);
-		User user = userRepository.findByEmail(username)
-				.orElseThrow(() -> new UsernameNotFoundException("Credenciales Incorrectas"));
-		List<GrantedAuthority> roles = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getDescription())).collect(Collectors.toList());
-		logger.info(user);
+	public Optional<User> findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
+	public boolean isActive(String email) {
+		return userRepository.findActiveByEmail(email);
+	}
+
+	public void incrementFailedAttempts(String email) {
+		userRepository.incrementFailedAttempts(email, LocalDateTime.now());
+	}
+
+	public void updateLastLogin(String email) {
+		userRepository.updateLastLogin(email, LocalDateTime.now());
+	}
+
+	public boolean incrementFailedAttemptsAndValidateUserStatus(String email) {
+		if (findByEmail(email).isPresent()) {
+			incrementFailedAttempts(email);
+			return isActive(email);
+		}
+
+		return true;
+	}
+
+	public boolean updateLastLoginAndValidateUserStatus(String email) {
+		boolean active = isActive(email);
+		if (active) {
+			updateLastLogin(email);
+		}
+		return active;
 	}
 
 }

@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -39,12 +38,17 @@ public class User {
 	@Column(unique = true)
 	private String email;
 	private String password;
+	
+	@Column(nullable = false, columnDefinition = "BIT default 1")
 	private boolean active;
 	@CreationTimestamp
 	private LocalDateTime created;
-	@UpdateTimestamp
 	private LocalDateTime modified;
 	private LocalDateTime lastLogin;
+
+	@Column(nullable = false, columnDefinition = "TINYINT default 0")
+	private int failedAttempts;
+
 	@Singular
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = {

@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.octaviorobleto.auth.core.services.UserService;
+import com.octaviorobleto.auth.core.services.UserLoginService;
 import com.octaviorobleto.commons.utilities.text.StringUtils;
 
 
@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	private JwtProvider jwtProvider;
 
 	@Autowired
-	private UserService userService;
+	private UserLoginService userService;
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {

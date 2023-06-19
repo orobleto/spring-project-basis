@@ -60,6 +60,13 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>com.octaviorobleto</groupId>
+			<artifactId>utilities-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
 		<dependency>
 			<groupId>org.springdoc</groupId>

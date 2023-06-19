@@ -1,6 +1,5 @@
 package com.octaviorobleto.auth.core.dtos;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.stereotype.Component;
@@ -22,11 +21,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserLoginDTO {
 
-	@NotEmpty(message = "Debe enviar un correo [email] electronico")
-	@Email(message = "Debe ser un correo [email] valido")
+	@NotEmpty(message = "Debe enviar un correo electronico [email]")
 	@JsonProperty(value = "email", required = true)
 	private String email;
-	@NotEmpty(message = "Debe enviar la clave [key]")
+	@NotEmpty(message = "Debe enviar la clave [password]")
 	@JsonProperty(value = "password", required = true)
 	private String password;
 }

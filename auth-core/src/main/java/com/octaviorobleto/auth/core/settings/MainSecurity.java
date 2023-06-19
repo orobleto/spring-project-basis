@@ -1,4 +1,4 @@
-package com.octaviorobleto.auth.core;
+package com.octaviorobleto.auth.core.settings;
 
 import java.security.SecureRandom;
 
@@ -16,7 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.octaviorobleto.auth.core.services.UserService;
+import com.octaviorobleto.auth.core.services.UserLoginService;
 import com.octaviorobleto.auth.core.services.jwt.JwtEntryPoint;
 import com.octaviorobleto.auth.core.services.jwt.JwtFilter;
 
@@ -26,7 +26,7 @@ import com.octaviorobleto.auth.core.services.jwt.JwtFilter;
 @EnableMethodSecurity(prePostEnabled = true)
 public class MainSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
-	private UserService userService;
+	private UserLoginService userService;
 	@Autowired
 	private JwtEntryPoint jwtEntryPoint;
 
@@ -55,6 +55,10 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 
 	protected void configure(HttpSecurity http) throws Exception {
 
+		/*
+		 * http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod
+		 * .GET).permitAll().anyRequest() .authenticated().and().httpBasic();
+		 */
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET).permitAll()
 				.antMatchers(HttpMethod.GET, "/").permitAll().antMatchers("/v1/auth/**").permitAll()
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
